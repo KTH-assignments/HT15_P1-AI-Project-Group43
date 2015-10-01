@@ -1,14 +1,32 @@
+import sys
 from nltk import *
 from nltk.probability import *
 from nltk.model import NgramModel
-from nltk.corpus import treebank
+from nltk.corpus import *
 
-if __name__ == '__main__':
+def main():
+    args = sys.argv[1:]
 
-    # The training set
-    # Treebank produces unorthodox results in the context of a usual conversation
-    # because of its economic content.
-    sentences = treebank.words()
+    if not args:
+        print 'usage: [--corpus] [--n (for ngrams)]'
+        print 'Using treebank as corpus, n = 4'
+        sentences = treebank.words()
+        N = 4
+    else:
+        # The training set
+        # Treebank produces unorthodox results in the context of a usual conversation
+        # because of its economic content.
+        if args[0] == "--treebank":
+            sentences = treebank.words()
+        elif args[0] == "--brown":
+            sentences = brown.words()
+        elif args[0] == "--shakespeare":
+            sentences = shakespeare.words()
+        else:
+            sentences = treebank.words()
+
+        N = int(args[1][-1])
+
 
     # The tokenized training set as a list
     words = []
@@ -19,9 +37,6 @@ if __name__ == '__main__':
 
     # Smoother
     est = lambda fdist, bins: LidstoneProbDist(fdist, 0.2)
-
-    # N-gram factor
-    N = 4
 
     # Ngram language model based on the training set
     langModel = NgramModel(N, words, estimator=est)
@@ -45,3 +60,7 @@ if __name__ == '__main__':
         predicted_phrase = langModel.generate(1, context)
         conversation.append(predicted_phrase[-1])
         print ' '.join(conversation)
+
+
+if __name__ == '__main__':
+  main()
