@@ -18,9 +18,6 @@ def main():
         for s in sent:
             words.append(s)
 
-    # The frequency distribution of the training set
-    fdist = FreqDist(words)
-
     # Smoother
     if smoother == 1:
         est = lambda fdist, bins: LidstoneProbDist(fdist, 0.1)
