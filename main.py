@@ -1,32 +1,15 @@
 import sys
+
 from nltk import *
 from nltk.probability import *
 from nltk.model import NgramModel
-from nltk.corpus import *
+
+import utils
 
 def main():
     args = sys.argv[1:]
 
-    if not args:
-        print 'usage: [--corpus] [--n (for ngrams)]'
-        print 'Using treebank as corpus, n = 4'
-        sentences = treebank.words()
-        N = 4
-    else:
-        # The training set
-        # Treebank produces unorthodox results in the context of a usual conversation
-        # because of its economic content.
-        if args[0] == "--treebank":
-            sentences = treebank.words()
-        elif args[0] == "--brown":
-            sentences = brown.words()
-        elif args[0] == "--shakespeare":
-            sentences = shakespeare.words()
-        else:
-            sentences = treebank.words()
-
-        N = int(args[1][-1])
-
+    sentences, N, smoother = utils.initialize(args)
 
     # The tokenized training set as a list
     words = []
@@ -35,31 +18,50 @@ def main():
         for s in sent:
             words.append(s)
 
+    # The frequency distribution of the training set
+    fdist = FreqDist(words)
+
     # Smoother
-    est = lambda fdist, bins: LidstoneProbDist(fdist, 0.2)
+    if smoother == 1:
+        est = lambda fdist, bins: LidstoneProbDist(fdist, 0.1)
+    elif smoother == 2:
+        est = lambda fdist, bins: WittenBellProbDist(fdist, bins = 1e5)
+    elif smoother == 3:
+        est = lambda fdist, bins: SimpleGoodTuringProbDist(fdist, bins = 1e5)
+    else:
+        print "Falling back to Lidstone as smoother"
+        est = lambda fdist, bins: LidstoneProbDist(fdist, 0.1)
+
+
+
 
     # Ngram language model based on the training set
-    langModel = NgramModel(N, words, estimator=est)
+    if smoother == 0:
+        langModel = NgramModel(N, words)
+    else:
+        langModel = NgramModel(N, words, estimator=est)
 
     # The conversation has to have at N-1 places at first
     conversation = ["", "", ""]
 
     while True:
+        try:
+            # Read the user's word input
+            user = raw_input()
 
-        # Read the user's word input
-        user = raw_input()
+            # Add it to the story
+            conversation.append(user)
 
-        # Add it to the story
-        conversation.append(user)
+            # The last N-1 words are the context in which the next word should
+            # be placed
+            context = conversation[-(N-1):]
 
-        # The last N-1 words are the context in which the next word should
-        # be placed
-        context = conversation[-(N-1):]
-
-        # Predict one word, add it to the story and print the story so far
-        predicted_phrase = langModel.generate(1, context)
-        conversation.append(predicted_phrase[-1])
-        print ' '.join(conversation)
+            # Predict one word, add it to the story and print the story so far
+            predicted_phrase = langModel.generate(1, context)
+            conversation.append(predicted_phrase[-1])
+            print ' '.join(conversation)
+        except KeyboardInterrupt:
+            sys.exit(1)
 
 
 if __name__ == '__main__':
