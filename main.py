@@ -1,53 +1,48 @@
 import sys
 
-from nltk import *
-from nltk.probability import *
-from nltk.model import NgramModel
-
 import utils
 
+import argparse
 def main():
-    args = sys.argv[1:]
 
-    sentences, N, smoother = utils.initialize(args)
+    # Parse the command line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-c", "--corpus", type=str, help="The corpus to use for training")
+    parser.add_argument("-n", "--N", type=int, help="N-gram factor")
+    parser.add_argument("-e", "--est", type=int, help="Which estimator to use for smoothing")
+    args = parser.parse_args()
 
-    # The tokenized training set as a list
-    words = []
-    for sentence in sentences:
-        sent = word_tokenize(sentence)
-        for s in sent:
-            words.append(s)
+    corpus = args.corpus
+    N = args.N
+    est = args.est
 
-    # Smoother
-    if smoother == 1:
-        est = lambda fdist, bins: LidstoneProbDist(fdist, 0.1)
-    elif smoother == 2:
-        est = lambda fdist, bins: WittenBellProbDist(fdist, bins = 1e5)
-    elif smoother == 3:
-        est = lambda fdist, bins: SimpleGoodTuringProbDist(fdist, bins = 1e5)
-    else:
-        print "Falling back to Lidstone as smoother"
-        est = lambda fdist, bins: LidstoneProbDist(fdist, 0.1)
+    if args.corpus is None:
+        corpus = "treebank"
+        print "Using treebank as the default corpus"
 
+    if args.N is None:
+        N = 3
+        print "Using N = 3 as default ngram factor"
 
+    if args.est is None:
+        est = 0
+        print "Not using smoothing"
 
-
-    # Ngram language model based on the training set
-    if smoother == 0:
-        langModel = NgramModel(N, words)
-    else:
-        langModel = NgramModel(N, words, estimator=est)
+    # The language model
+    langModel = utils.init(corpus, N, est)
 
     # The conversation has to have at N-1 places at first
-    conversation = ["", "", ""]
+    conversation = ["",] * (N-1)
 
+
+    print "I'm ready, you start!"
     while True:
         try:
             # Read the user's word input
-            user = raw_input()
+            users_word = raw_input()
 
             # Add it to the story
-            conversation.append(user)
+            conversation.append(users_word)
 
             # The last N-1 words are the context in which the next word should
             # be placed
@@ -56,7 +51,9 @@ def main():
             # Predict one word, add it to the story and print the story so far
             predicted_phrase = langModel.generate(1, context)
             conversation.append(predicted_phrase[-1])
+
             print ' '.join(conversation)
+
         except KeyboardInterrupt:
             sys.exit(1)
 
