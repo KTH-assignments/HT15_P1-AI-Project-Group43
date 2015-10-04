@@ -78,6 +78,29 @@ def get_words_list_from_corpus(corpus_):
 
 
 ################################################################################
+# Induce a context free grammar from the corpus used
+################################################################################
+def induce_grammar_from_parsed_corpus(corpus_):
+
+    corpus = get_corpus(corpus_)
+
+    productions = []
+    for item in corpus.items:
+        for tree in corpus.parsed_sents(item):
+            # perform optional tree transformations, e.g.:
+            tree.collapse_unary(collapsePOS = False)
+            tree.chomsky_normal_form(horzMarkov = 2)
+
+            productions += tree.productions()
+
+    S = Nonterminal('S')
+    grammar = induce_pcfg(S, productions)
+
+    return grammar
+
+
+
+################################################################################
 # Consider this the sub-main method of the program
 ################################################################################
 def init(corpus_, N_, est_):
@@ -91,7 +114,7 @@ def init(corpus_, N_, est_):
 
     tag_model = init_tagger_model(corpus_)
 
-    cfg_grammar = init_parser(corpus_)
+    cfg_grammar = induce_grammar_from_parsed_corpus(corpus_)
 
     return language_model, tag_model, cfg_grammar
 
@@ -176,29 +199,6 @@ def init_tagger_model(corpus_):
     brill_tagger = trainer.train(words, max_rules=100, min_score=3)
 
     return brill_tagger
-
-
-
-################################################################################
-# Induce a context free grammar from the corpus used
-################################################################################
-def init_parser(corpus_):
-
-    corpus = get_corpus(corpus_)
-
-    productions = []
-    for item in corpus.items:
-        for tree in corpus.parsed_sents(item):
-            # perform optional tree transformations, e.g.:
-            tree.collapse_unary(collapsePOS = False)
-            tree.chomsky_normal_form(horzMarkov = 2)
-
-            productions += tree.productions()
-
-    S = Nonterminal('S')
-    grammar = induce_pcfg(S, productions)
-
-    return grammar
 
 
 

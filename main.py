@@ -1,8 +1,9 @@
 import sys
-
 import utils
-
 import argparse
+
+from nltk.parse.chart import ChartParser
+
 def main():
 
     # Parse the command line arguments
@@ -30,7 +31,7 @@ def main():
 
     # The language and tag models, and the context free grammar induced
     # from the corpus used
-    langModel, tag_model, cfg_grammar = utils.init(corpus, N, est)
+    langModel, tagger_model, cfg_grammar = utils.init(corpus, N, est)
 
     # The conversation has to have at N-1 places at first
     conversation = ["",] * (N-1)
@@ -51,20 +52,32 @@ def main():
 
             # Predict one word, add it to the story and print the story so far
             predicted_phrase = langModel.generate(1, context)
+
+            # The word that was predicted
             predicted_word = predicted_phrase[-1]
 
             conversation.append(predicted_word)
 
-            # Tag this word
+            # Tag the words in the conversation
+            tagged_conversation = tagger_model.tag(conversation)
+
+            # Extract the POS tags from the tagged conversation
+            pos_tags = [pos for (token, pos) in tagged_conversation]
+
+
+            # Is the sentence so far acceptable?
+            parser = ChartParser(cfg_grammar)
+
+            trees = parser.nbest_parse(pos_tags[-(N-1):])
+            if trees is not None:
+                print ' '.join(conversation)
 
 
 
-
-            print ' '.join(conversation)
 
         except KeyboardInterrupt:
             sys.exit(1)
 
 
 if __name__ == '__main__':
-  main()
+    main()
