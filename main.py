@@ -28,8 +28,9 @@ def main():
         est = 0
         print "Not using smoothing"
 
-    # The language model
-    langModel = utils.init(corpus, N, est)
+    # The language and tag models, and the context free grammar induced
+    # from the corpus used
+    langModel, tag_model, cfg_grammar = utils.init(corpus, N, est)
 
     # The conversation has to have at N-1 places at first
     conversation = ["",] * (N-1)
@@ -50,7 +51,14 @@ def main():
 
             # Predict one word, add it to the story and print the story so far
             predicted_phrase = langModel.generate(1, context)
-            conversation.append(predicted_phrase[-1])
+            predicted_word = predicted_phrase[-1]
+
+            conversation.append(predicted_word)
+
+            # Tag this word
+
+
+
 
             print ' '.join(conversation)
 

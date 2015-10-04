@@ -2,8 +2,99 @@ from nltk.corpus import *
 from nltk.probability import *
 from nltk.model import NgramModel
 from nltk.tag import *
+from nltk.grammar import *
 
 from nltk import *
+
+
+################################################################################
+# Returns the corpus from its string identifier
+################################################################################
+def get_corpus(corpus_):
+
+    if corpus_ == "treebank":
+        corpus = treebank
+    elif corpus_ == "brown":
+        corpus = brown
+    elif corpus_ == "shakespeare":
+        corpus = shakespeare # TODO Review this, not compatible
+    else:
+        print "Falling back to treebank as training set"
+        corpus = treebank
+
+    return corpus
+
+
+
+################################################################################
+# Returns the words of a corpus given its string identifier
+################################################################################
+def get_corpus_words(corpus_):
+
+    return get_corpus(corpus_).words()
+
+
+
+################################################################################
+# Sets the training set and extracts its contents as a list of tagged words
+################################################################################
+def get_tagged_words_list_from_corpus(corpus_):
+
+    sentences = ""
+
+    # Set the training set
+    # Treebank produces unorthodox results in the context of a usual conversation
+    # because of its economic content.
+    if corpus_ == "treebank":
+        sentences = treebank.tagged_sents(simplify_tags = "universal")
+    elif corpus_ == "brown":
+        sentences = brown.tagged_sents(simplify_tags = "universal")
+    elif corpus_ == "shakespeare":
+        sentences = shakespeare.tagged_sents(simplify_tags = "universal") # TODO Review this, not compatible
+    else:
+        print "Falling back to treebank as training set"
+        sentences = treebank.tagged_sents(simplify_tags = "universal")
+
+    return sentences
+
+
+
+################################################################################
+# Sets the training set and extracts its contents as a list of words
+################################################################################
+def get_words_list_from_corpus(corpus_):
+
+    sentences = get_corpus_words(corpus_)
+
+    # The tokenized training set as a list
+    words = []
+    for sentence in sentences:
+        sent = word_tokenize(sentence)
+        for s in sent:
+            words.append(s)
+
+    return words
+
+
+
+################################################################################
+# Consider this the sub-main method of the program
+################################################################################
+def init(corpus_, N_, est_):
+
+    # Initialize the corpus (sentences), size N (for ngrams)
+    # and the estimator (estimator) if smoothing is selected
+    words, N, estimator = init_base(corpus_, N_, est_)
+
+    # Builds the language model based on the selected base
+    language_model = init_language_model(words, N, estimator)
+
+    tag_model = init_tagger_model(corpus_)
+
+    cfg_grammar = init_parser(corpus_)
+
+    return language_model, tag_model, cfg_grammar
+
 
 
 ################################################################################
@@ -89,73 +180,25 @@ def init_tagger_model(corpus_):
 
 
 ################################################################################
-def init(corpus_, N_, est_):
-
-    # Initialize the corpus (sentences), size N (for ngrams)
-    # and the estimator (estimator) if smoothing is selected
-    words, N, estimator = init_base(corpus_, N_, est_)
-
-    # Builds the language model based on the selected base
-    language_model = init_language_model(words, N, estimator)
-
-    tag_model = init_tagger_model(corpus_)
-
-    return language_model
-
-
-
+# Induce a context free grammar from the corpus used
 ################################################################################
-# Sets the training set and extracts its contents as a list of words
-################################################################################
-def get_words_list_from_corpus(corpus_):
+def init_parser(corpus_):
 
-    sentences = ""
+    corpus = get_corpus(corpus_)
 
-    # Set the training set
-    # Treebank produces unorthodox results in the context of a usual conversation
-    # because of its economic content.
-    if corpus_ == "treebank":
-        sentences = treebank.words()
-    elif corpus_ == "brown":
-        sentences = brown.words()
-    elif corpus_ == "shakespeare":
-        sentences = shakespeare.words() # TODO Review this, not compatible
-    else:
-        print "Falling back to treebank as training set"
-        sentences = treebank.words()
+    productions = []
+    for item in corpus.items:
+        for tree in corpus.parsed_sents(item):
+            # perform optional tree transformations, e.g.:
+            tree.collapse_unary(collapsePOS = False)
+            tree.chomsky_normal_form(horzMarkov = 2)
 
-    # The tokenized training set as a list
-    words = []
-    for sentence in sentences:
-        sent = word_tokenize(sentence)
-        for s in sent:
-            words.append(s)
+            productions += tree.productions()
 
-    return words
+    S = Nonterminal('S')
+    grammar = induce_pcfg(S, productions)
 
-
-
-################################################################################
-# Sets the training set and extracts its contents as a list of tagged words
-################################################################################
-def get_tagged_words_list_from_corpus(corpus_):
-
-    sentences = ""
-
-    # Set the training set
-    # Treebank produces unorthodox results in the context of a usual conversation
-    # because of its economic content.
-    if corpus_ == "treebank":
-        sentences = treebank.tagged_sents(simplify_tags = "universal")
-    elif corpus_ == "brown":
-        sentences = brown.tagged_sents(simplify_tags = "universal")
-    elif corpus_ == "shakespeare":
-        sentences = shakespeare.tagged_sents(simplify_tags = "universal") # TODO Review this, not compatible
-    else:
-        print "Falling back to treebank as training set"
-        sentences = treebank.tagged_sents(simplify_tags = "universal")
-
-    return sentences
+    return grammar
 
 
 
