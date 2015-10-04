@@ -35,7 +35,7 @@ def main():
     conversation = ["",] * (N-1)
 
 
-    print "I'm ready, you start!"
+    print "I'm ready, let's play!"
     while True:
         try:
             # Read the user's word input
