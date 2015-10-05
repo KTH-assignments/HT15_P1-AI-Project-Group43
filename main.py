@@ -11,30 +11,37 @@ def main():
     # Parse the command line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--corpus", type=str, help="The corpus to use for training")
+    parser.add_argument("-cc", "--corpus_category", type=str, help="The specific categories of the corpus to use for training")
     parser.add_argument("-n", "--N", type=int, help="N-gram factor")
     parser.add_argument("-e", "--est", type=int, help="Which estimator to use for smoothing")
     parser.add_argument("-g", "--check_grammar", type=int, help="Whether to check for grammatical errors")
     args = parser.parse_args()
 
     corpus = args.corpus
+    corpus_category = args.corpus_category
     N = args.N
     est = args.est
 
     if args.corpus is None:
         corpus = "treebank"
-        print "Using treebank as the default corpus"
+        print "--Using treebank as the default corpus"
+
+    if args.corpus_category is None:
+        corpus_category = "news"
+        if corpus == "brown":
+            print "--Using news as the default corpus category"
 
     if args.N is None:
         N = 3
-        print "Using N = 3 as default ngram factor"
+        print "--Using N = 3 as default ngram factor"
 
     if args.est is None:
         est = 0
-        print "Not using smoothing"
+        print "--Not using smoothing"
 
     if args.check_grammar is None:
         check_grammar = True
-        print "Using grammar checks"
+        print "--Using grammar checks"
     else:
         if args.check_grammar == 0:
             check_grammar = False
@@ -45,9 +52,9 @@ def main():
 
     # The language and tag models, and the context free grammar induced
     # from the corpus used
-    langModel, tagger_model, cfg_grammar = nltk_utils.init(corpus, N, est)
+    langModel = nltk_utils.init(corpus, corpus_category, N, est)
 
-    parser = ChartParser(cfg_grammar)
+    #parser = ChartParser(cfg_grammar)
 
     # The conversation has to have at N-1 places at first
     conversation = ["",] * (N-1)
@@ -70,6 +77,7 @@ def main():
 
 
 ################################################################################
+# The user's response. It returns the conversation in full.
 ################################################################################
 def user_says(conversation, check_grammar):
 
@@ -102,6 +110,7 @@ def user_says(conversation, check_grammar):
 
 
 ################################################################################
+# The agent's response. The agent returns the conversation in full.
 ################################################################################
 def agent_says(conversation, N, langModel, check_grammar):
 

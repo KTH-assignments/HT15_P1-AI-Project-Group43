@@ -29,9 +29,12 @@ def get_corpus(corpus_):
 ################################################################################
 # Returns the words list of a corpus given its string identifier
 ################################################################################
-def get_corpus_words(corpus_):
+def get_corpus_words(corpus_, corpus_category_):
 
-    return get_corpus(corpus_).words()
+    if corpus_ == "brown":
+        return get_corpus(corpus_).words(categories = corpus_category_)
+    else:
+        return get_corpus(corpus_).words()
 
 
 
@@ -62,9 +65,9 @@ def get_tagged_words_list_from_corpus(corpus_):
 ################################################################################
 # Sets the training set and extracts its contents as a list of words
 ################################################################################
-def get_words_list_from_corpus(corpus_):
+def get_words_list_from_corpus(corpus_, corpus_category_):
 
-    sentences = get_corpus_words(corpus_)
+    sentences = get_corpus_words(corpus_, corpus_category_)
 
     # The tokenized training set as a list
     words = []
@@ -103,30 +106,30 @@ def induce_grammar_from_parsed_corpus(corpus_):
 ################################################################################
 # Consider this the sub-main method of the program
 ################################################################################
-def init(corpus_, N_, est_):
+def init(corpus_, corpus_category_, N_, est_):
 
     # Initialize the corpus (sentences), size N (for ngrams)
     # and the estimator (estimator) if smoothing is selected
-    words, N, estimator = init_base(corpus_, N_, est_)
+    words, N, estimator = init_base(corpus_, corpus_category_, N_, est_)
 
     # Builds the language model based on the selected base
     language_model = init_language_model(words, N, estimator)
 
-    tag_model = init_tagger_model(corpus_)
+    #tag_model = init_tagger_model(corpus_)
 
-    cfg_grammar = induce_grammar_from_parsed_corpus(corpus_)
+    #cfg_grammar = induce_grammar_from_parsed_corpus(corpus_)
 
-    return language_model, tag_model, cfg_grammar
+    return language_model #, tag_model, cfg_grammar
 
 
 
 ################################################################################
 # Initializes corpus, n for ngrams and the smoothing technique
 ################################################################################
-def init_base(corpus_, N_, est_):
+def init_base(corpus_, corpus_category_, N_, est_):
 
     # Sets the training set and extracts its contents as a list of words
-    words = get_words_list_from_corpus(corpus_)
+    words = get_words_list_from_corpus(corpus_, corpus_category_)
 
     # Set the N-gram N factor
     N = N_
