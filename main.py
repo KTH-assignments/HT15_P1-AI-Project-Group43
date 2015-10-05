@@ -1,8 +1,10 @@
 import sys
-import utils
+import nltk_utils
+import language_check_utils
 import argparse
 
 from nltk.parse.chart import ChartParser
+
 
 def main():
 
@@ -11,6 +13,7 @@ def main():
     parser.add_argument("-c", "--corpus", type=str, help="The corpus to use for training")
     parser.add_argument("-n", "--N", type=int, help="N-gram factor")
     parser.add_argument("-e", "--est", type=int, help="Which estimator to use for smoothing")
+    parser.add_argument("-g", "--check_grammar", type=int, help="Whether to check for grammatical errors")
     args = parser.parse_args()
 
     corpus = args.corpus
@@ -29,54 +32,111 @@ def main():
         est = 0
         print "Not using smoothing"
 
+    if args.check_grammar is None:
+        check_grammar = True
+        print "Using grammar checks"
+    else:
+        if args.check_grammar == 0:
+            check_grammar = False
+        else:
+            check_grammar = True
+
+
+
     # The language and tag models, and the context free grammar induced
     # from the corpus used
-    langModel, tagger_model, cfg_grammar = utils.init(corpus, N, est)
+    langModel, tagger_model, cfg_grammar = nltk_utils.init(corpus, N, est)
+
+    parser = ChartParser(cfg_grammar)
 
     # The conversation has to have at N-1 places at first
     conversation = ["",] * (N-1)
 
 
-    print "I'm ready, let's play!"
+    print "It took a while, but I'm ready, let's play!"
     while True:
         try:
-            # Read the user's word input
-            users_word = raw_input()
 
-            # Add it to the story
-            conversation.append(users_word)
+            conversation = user_says(conversation, check_grammar)
 
-            # The last N-1 words are the context in which the next word should
-            # be placed
-            context = conversation[-(N-1):]
+            conversation = agent_says(conversation, N, langModel, check_grammar)
 
-            # Predict one word, add it to the story and print the story so far
-            predicted_phrase = langModel.generate(1, context)
-
-            # The word that was predicted
-            predicted_word = predicted_phrase[-1]
-
-            conversation.append(predicted_word)
-
-            # Tag the words in the conversation
-            tagged_conversation = tagger_model.tag(conversation)
-
-            # Extract the POS tags from the tagged conversation
-            pos_tags = [pos for (token, pos) in tagged_conversation]
-
-
-            # Is the sentence so far acceptable?
-            parser = ChartParser(cfg_grammar)
-
-            trees = parser.nbest_parse(pos_tags[-(N-1):])
-            if trees is not None:
-                print ' '.join(conversation)
-
-
+            print " ".join(conversation)
 
 
         except KeyboardInterrupt:
             sys.exit(1)
+
+
+
+################################################################################
+################################################################################
+def user_says(conversation, check_grammar):
+
+    # Keep a backup of the so far conversation
+    if check_grammar:
+        valid_conversation = list(conversation)
+
+    # Read the user's word and check the validity of the so far conversation
+    users_input_is_correct = False
+    while not users_input_is_correct:
+
+        # Read the user's word input
+        users_word = raw_input()
+
+        # Add it to the story, but keep a backup of the story so far,
+        # maybe the user's input is incorrect.
+        conversation.append(users_word)
+
+        if check_grammar:
+
+            # Check the conversation's correctness
+            users_input_is_correct = language_check_utils.check(conversation)
+
+            if not users_input_is_correct:
+                print "Unacceptable input. Please try again."
+                conversation = list(valid_conversation)
+
+    return conversation
+
+
+
+################################################################################
+################################################################################
+def agent_says(conversation, N, langModel, check_grammar):
+
+    # Keep a backup of the so far conversation
+    if check_grammar:
+        valid_conversation = list(conversation)
+
+    sentence_is_correct = False
+
+    while not sentence_is_correct:
+
+        # The last N-1 words are the context in which the next word should
+        # be placed
+        context = conversation[-(N-1):]
+
+        # Predict one word, add it to the story and print the story so far
+
+        predicted_phrase = langModel.generate(1, context)
+
+        predicted_word = predicted_phrase[-1]
+
+        # Add the predicted word to the story,
+        # but keep a backup of the story so far,
+        # maybe the agent's guess is incorrect
+        conversation.append(predicted_word)
+
+        if check_grammar:
+
+            sentence_is_correct = language_check_utils.check(conversation)
+
+            if not sentence_is_correct:
+                conversation = list(valid_conversation)
+
+    return conversation
+
 
 
 if __name__ == '__main__':
