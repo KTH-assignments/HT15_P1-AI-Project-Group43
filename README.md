@@ -1,7 +1,7 @@
 HT15_AI_Project_Group43
 =======================
 
-Construct a one-word-at-a-time story with a AI agent.
+Construct a one-word-at-a-time story with an AI agent.
 
 You'll need NLTK (NOT the pip version) and 
 
