@@ -27,7 +27,7 @@ def get_corpus(corpus_):
 
 
 ################################################################################
-# Returns the words of a corpus given its string identifier
+# Returns the words list of a corpus given its string identifier
 ################################################################################
 def get_corpus_words(corpus_):
 
