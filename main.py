@@ -37,16 +37,18 @@ def main():
 
     if args.est is None:
         est = 0
-        print "--Not using smoothing"
+        print "--Not using smoothing by default"
 
     if args.check_grammar is None:
         check_grammar = True
-        print "--Using grammar checks"
+        print "--Using grammar checks by default"
     else:
         if args.check_grammar == 0:
             check_grammar = False
+            print "--Not using grammar checks"
         else:
             check_grammar = True
+            print "--Using grammar checks"
 
 
 
@@ -60,7 +62,7 @@ def main():
     conversation = ["",] * (N-1)
 
 
-    print "It took a while, but I'm ready, let's play!"
+    print "It took a while, but I'm ready; let's play!"
     while True:
         try:
 
@@ -104,6 +106,8 @@ def user_says(conversation, check_grammar):
             if not users_input_is_correct:
                 print "Unacceptable input. Please try again."
                 conversation = list(valid_conversation)
+        else:
+            users_input_is_correct = True
 
     return conversation
 
@@ -124,7 +128,12 @@ def agent_says(conversation, N, langModel, check_grammar):
 
         # The last N-1 words are the context in which the next word should
         # be placed
-        context = conversation[-(N-1):]
+        if N == 1:
+            context = []
+        else:
+            context = conversation[-(N-1):]
+
+        print context
 
         # Predict one word, add it to the story and print the story so far
 
@@ -143,6 +152,8 @@ def agent_says(conversation, N, langModel, check_grammar):
 
             if not sentence_is_correct:
                 conversation = list(valid_conversation)
+        else:
+            sentence_is_correct = True
 
     return conversation
 
