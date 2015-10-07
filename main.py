@@ -58,12 +58,13 @@ def main():
 
     #parser = ChartParser(cfg_grammar)
 
-    # The conversation has to have at N-1 places at first
+    # The conversation has to have N-1 places in the beginning
     conversation = ["",] * (N-1)
 
 
     print "It took a while, but I'm ready; let's play!"
     while True:
+
         try:
 
             conversation = user_says(conversation, check_grammar)
@@ -129,11 +130,9 @@ def agent_says(conversation, N, langModel, check_grammar):
         # The last N-1 words are the context in which the next word should
         # be placed
         if N == 1:
-            context = []
+            context = [""]
         else:
             context = conversation[-(N-1):]
-
-        print context
 
         # Predict one word, add it to the story and print the story so far
 

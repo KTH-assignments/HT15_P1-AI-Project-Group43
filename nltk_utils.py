@@ -218,7 +218,7 @@ def set_estimator(est_, words):
         estimator = None
     elif est_ == 1:
         print "Using LidstoneProbDist as smoother"
-        estimator = lambda fdist, bins: LidstoneProbDist(fdist, 0.1)
+        estimator = lambda fdist, bins: LidstoneProbDist(fdist, 0.2)
     elif est_ == 2:
         print "Using WittenBellProbDist as smoother"
         estimator = lambda fdist, bins: WittenBellProbDist(fdist)
