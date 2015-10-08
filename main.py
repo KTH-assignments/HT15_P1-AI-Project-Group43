@@ -1,4 +1,6 @@
 import sys
+import time
+import datetime
 import nltk_utils
 import language_check_utils
 import argparse
@@ -15,12 +17,17 @@ def main():
     parser.add_argument("-n", "--N", type=int, help="N-gram factor")
     parser.add_argument("-e", "--est", type=int, help="Which estimator to use for smoothing")
     parser.add_argument("-g", "--check_grammar", type=int, help="Whether to check for grammatical errors")
+    parser.add_argument("-r", "--record", type=int, help="Record the story")
+    parser.add_argument("-d", "--record_directory", type=str, help="The directory in which the story is recorded")
     args = parser.parse_args()
 
     corpus = args.corpus
     corpus_category = args.corpus_category
     N = args.N
     est = args.est
+    record = args.record
+    record_directory = args.record_directory
+
 
     if args.corpus is None:
         corpus = "treebank"
@@ -50,6 +57,24 @@ def main():
             check_grammar = True
             print "--Using grammar checks"
 
+    if args.record is None:
+        record = 0
+    elif record > 0:
+        # Default directory in which the story will be recorded
+        record_directory = "stories/"
+
+    if args.record_directory is not None:
+        record_directory += "/"
+        record = 1
+
+
+    if record > 0:
+        # The name of the file in which the story is recorded
+        file_name = record_directory + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d-%H:%M:%S') + '.txt'
+        print "--Story recorded in", file_name
+    else:
+        print "--The story below will remain strictly between us"
+
 
 
     # The language and tag models, and the context free grammar induced
@@ -71,7 +96,16 @@ def main():
 
             conversation = agent_says(conversation, N, langModel, check_grammar)
 
-            print " ".join(conversation)
+            human_readable_conversation = " ".join(conversation)
+
+            print human_readable_conversation
+
+            # Record the conversation for experimental purposes
+            if record > 0:
+                log(file_name, human_readable_conversation)
+
+                # This produces a division by zero
+                #log(file_name, langModel.entropy(conversation))
 
 
         except KeyboardInterrupt:
@@ -155,6 +189,17 @@ def agent_says(conversation, N, langModel, check_grammar):
             sentence_is_correct = True
 
     return conversation
+
+
+
+################################################################################
+# Records `content_` in the directory `filename_`
+################################################################################
+def log(filename_, content_):
+
+    with open(filename_, 'w') as f:
+        f.write(content_+ "\n")
+
 
 
 

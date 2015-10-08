@@ -224,21 +224,6 @@ def set_estimator(est_, words):
     elif est_ == 2:
         print "Using WittenBellProbDist as smoother"
         estimator = lambda fdist, bins: WittenBellProbDist(fdist)
-    elif est_ == 3:
-        print "Using SimpleGoodTuringProbDist as smoother"
-        estimator = lambda fdist, bins: SimpleGoodTuringProbDist(fdist)
-    elif est_== 4:
-        print "Using UniformProbDist as smoother"
-        estimator = lambda fdist, bins: UniformProbDist(fdist)
-    elif est_== 5:
-        print "Using MLEProbDist as smoother"
-        estimator = lambda fdist, bins: MLEProbDist(fdist)
-    elif est_== 6:
-        print "Using ELEProbDist as smoother"
-        estimator = lambda fdist, bins: ELEProbDist(fdist)
-    elif est_== 7:
-        print "Using MutableProbDist as smoother" # This is vvvvvery slow
-        estimator = lambda fdist, bins: MutableProbDist(UniformProbDist(words), words)
     else:
         print "Falling back to Lidstone as smoother"
         estimator = lambda fdist, bins: LidstoneProbDist(fdist, 0.1)
