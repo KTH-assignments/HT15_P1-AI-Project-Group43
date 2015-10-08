@@ -1,0 +1,13 @@
+How to add new corpus:
+
+1) First make a folder under our git folder (so that everyone can reach the new data sets). Name the folder to something appropriate. E.g. "./HT15_AI_Project_Group43/NewCoprusWithAppropriateName".
+2) Add one or two data files to be used by the corpus into the newly created folder.
+3) Open up the "nltk_utils.py" file with your favourite text editor (mine is either Vim or Sublime).
+4) In the function decleration "def get_corpus(corpus_):" add another elif statement:
+	elif corpus_ == "NewCorpusName":
+		corpus = ...
+5) The "..." in step 4) are to be replaced with an appropriate CorpusReader for your data type (for regular txt-files with plain text in them use: PlaintextCorpusReader(...))
+6) Since "nltk_utils.py" is placed in the same folder as your data file use the root "./NewCoprusWithAppropriateName" and then a regex to find those files ('.*\.txt' for txt files worked).
+7) Save all changes and try running your code with "python main.py -c NewCorpusName" and cross your fingers.
+8) When you've reached step 7) and it works, add as many data files as you can manage inside the same folder as in 1) to improve on the performance.
+9) You're done, stop reading and go do some corpus work...
