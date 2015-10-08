@@ -95,9 +95,16 @@ def main():
 
             conversation = agent_says(conversation, N, langModel, check_grammar)
 
-            print " ".join(conversation)
+            human_readable_conversation = " ".join(conversation)
 
-            log_conversation(file_name, " ".join(conversation))
+            print human_readable_conversation
+
+            # Record the conversation for experimental purposes
+            if record > 0:
+                log(file_name, human_readable_conversation)
+
+                # This produces a division by zero
+                #log(file_name, langModel.entropy(conversation))
 
 
         except KeyboardInterrupt:
@@ -185,12 +192,14 @@ def agent_says(conversation, N, langModel, check_grammar):
 
 
 ################################################################################
-# Records conversation `conversation_` in the directory `filename_`
+# Records `content_` in the directory `filename_`
 ################################################################################
-def log_conversation(filename_, conversation_):
+def log(filename_, content_):
 
-    with open(filename_, 'a') as f:
-        f.write(conversation_ + "\n")
+    with open(filename_, 'w') as f:
+        f.write(content_+ "\n")
+
+
 
 
 if __name__ == '__main__':
