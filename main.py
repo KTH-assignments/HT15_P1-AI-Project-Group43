@@ -59,7 +59,6 @@ def main():
 
     if args.record is None:
         record = 0
-        print "--The story below will remain strictly between us"
     elif record > 0:
         # Default directory in which the story will be recorded
         record_directory = "stories/"
@@ -73,6 +72,8 @@ def main():
         # The name of the file in which the story is recorded
         file_name = record_directory + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d-%H:%M:%S') + '.txt'
         print "--Story recorded in", file_name
+    else:
+        print "--The story below will remain strictly between us"
 
 
 
