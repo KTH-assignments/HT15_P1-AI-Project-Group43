@@ -18,6 +18,8 @@ def get_corpus(corpus_):
         corpus = brown
     elif corpus_ == "shakespeare":
         corpus = shakespeare # TODO Review this, not compatible
+    elif corpus_ == "grimmstories":
+        corpus = PlaintextCorpusReader("./GrimmCorpus", '.*\.txt') # TODO Have not yet implemented it
     else:
         print "Falling back to treebank as training set"
         corpus = treebank
