@@ -105,7 +105,9 @@ def main():
                 log(file_name, human_readable_conversation)
 
                 # This produces a division by zero
-                #log(file_name, langModel.entropy(conversation))
+
+		if len(conversation) > N:                
+		    log(file_name, str(langModel.entropy(conversation)))
 
 
         except KeyboardInterrupt:
@@ -197,7 +199,7 @@ def agent_says(conversation, N, langModel, check_grammar):
 ################################################################################
 def log(filename_, content_):
 
-    with open(filename_, 'w') as f:
+    with open(filename_, 'a') as f:
         f.write(content_+ "\n")
 
 
