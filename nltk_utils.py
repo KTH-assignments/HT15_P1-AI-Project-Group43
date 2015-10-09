@@ -19,9 +19,11 @@ def get_corpus(corpus_):
     elif corpus_ == "shakespeare":
         corpus = shakespeare # TODO Review this, not compatible
     elif corpus_ == "grimmstories":
-        corpus = PlaintextCorpusReader("./GrimmCorpus", '.*\.txt') # TODO Have not yet implemented it
+        corpus = PlaintextCorpusReader("./GrimmCorpus", '.*\.txt')
     elif corpus_ == "spinoza":
-        corpus = PlaintextCorpusReader("./SpinozaCorpus", '.*\.txt') # TODO Have not yet implemented it
+        corpus = PlaintextCorpusReader("./SpinozaCorpus", '.*\.txt')
+    elif corpus_ == "kant":
+        corpus = PlaintextCorpusReader("./KantCorpus", '.*\.txt')
     else:
         print "Falling back to treebank as training set"
         corpus = treebank
