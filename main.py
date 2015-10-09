@@ -43,8 +43,8 @@ def main():
         print "--Using N = 3 as default ngram factor"
 
     if args.est is None:
-        est = 0
-        print "--Not using smoothing by default"
+        est = 1
+        print "--Using Lidstone as the default smoothing technique"
 
     if args.check_grammar is None:
         check_grammar = True
@@ -104,9 +104,7 @@ def main():
             if record > 0:
                 log(file_name, human_readable_conversation)
 
-                # This produces a division by zero
-
-		if len(conversation) > N:                
+		if len(conversation) - (N - 1) > N:
 		    log(file_name, str(langModel.entropy(conversation)))
 
 
