@@ -3,7 +3,7 @@ HT15_AI_Project_Group43
 
 Construct a one-word-at-a-time story with an AI agent.
 
-You'll need NLTK (NOT the pip version) and
+You'll need NLTK v.2.0.4 (NOT the pip version) and
 
 language-check (pip install 3to2, pip install language-check). More at https://pypi.python.org/pypi/language-check
 
@@ -24,7 +24,7 @@ python main.py [-c CORPUS] [-cc CORPUS_CATEGORY] [-n N] [-e EST]
                   N = 3 by default.
 
                -e EST : An integer specifying the smoothing operator. Use 1 for
-                  the Lidstone smoothing technique, 2 for the Witten-Bell one.
+                  the Lidstone smoothing technique, 2 for the ELE one.
                   The Maximum Likelihood Estimator will be used as the default
                   smoothing operator.
 

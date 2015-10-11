@@ -19,9 +19,13 @@ def get_corpus(corpus_):
     elif corpus_ == "shakespeare":
         corpus = shakespeare # TODO Review this, not compatible
     elif corpus_ == "grimmstories":
-        corpus = PlaintextCorpusReader("./GrimmCorpus", '.*\.txt') # TODO Have not yet implemented it
+        corpus = PlaintextCorpusReader("./custom_corpora/GrimmCorpus", '.*\.txt')
+    elif corpus_ == "spinoza":
+        corpus = PlaintextCorpusReader("./custom_corpora/SpinozaCorpus", '.*\.txt')
+    elif corpus_ == "kant":
+        corpus = PlaintextCorpusReader("./custom_corpora/KantCorpus", '.*\.txt')
     else:
-        print "Falling back to treebank as training set"
+        print "--Falling back to treebank as training set"
         corpus = treebank
 
     return corpus
@@ -57,7 +61,7 @@ def get_tagged_words_list_from_corpus(corpus_):
     elif corpus_ == "shakespeare":
         sentences = shakespeare.tagged_sents(simplify_tags = "universal") # TODO Review this, not compatible
     else:
-        print "Falling back to treebank as training set"
+        print "--Falling back to treebank as training set"
         sentences = treebank.tagged_sents(simplify_tags = "universal")
 
     return sentences
@@ -219,13 +223,13 @@ def set_estimator(est_, words):
     if est_ == 0:
         estimator = None
     elif est_ == 1:
-        print "Using LidstoneProbDist as smoother"
+        print "--Using LidstoneProbDist as smoother"
         estimator = lambda fdist, bins: LidstoneProbDist(fdist, 0.2)
     elif est_ == 2:
-        print "Using WittenBellProbDist as smoother"
-        estimator = lambda fdist, bins: WittenBellProbDist(fdist)
+        print "--Using ELEProbDist as smoother"
+        estimator = lambda fdist, bins: ELEProbDist(fdist)
     else:
-        print "Falling back to Lidstone as smoother"
+        print "--Falling back to Lidstone as smoother"
         estimator = lambda fdist, bins: LidstoneProbDist(fdist, 0.1)
 
     return estimator

@@ -43,8 +43,8 @@ def main():
         print "--Using N = 3 as default ngram factor"
 
     if args.est is None:
-        est = 0
-        print "--Not using smoothing by default"
+        est = 1
+        print "--Using Lidstone as the default smoothing technique"
 
     if args.check_grammar is None:
         check_grammar = True
@@ -104,8 +104,8 @@ def main():
             if record > 0:
                 log(file_name, human_readable_conversation)
 
-                # This produces a division by zero
-                #log(file_name, langModel.entropy(conversation))
+		if len(conversation) - (N - 1) > N:
+		    log(file_name, str(langModel.entropy(conversation)))
 
 
         except KeyboardInterrupt:
@@ -197,7 +197,7 @@ def agent_says(conversation, N, langModel, check_grammar):
 ################################################################################
 def log(filename_, content_):
 
-    with open(filename_, 'w') as f:
+    with open(filename_, 'a') as f:
         f.write(content_+ "\n")
 
 
