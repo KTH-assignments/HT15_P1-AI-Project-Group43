@@ -75,6 +75,13 @@ def main():
     else:
         print "--The story below will remain strictly between us"
 
+    # Log the parameters of the language model in `file_name`
+    log(file_name, "N = " + str(N))
+    log(file_name, "Corpus: " + corpus + "." + corpus_category)
+    log(file_name, "Smoother: " + str(est))
+    log(file_name, "Grammar: " + str(check_grammar))
+    log(file_name, "")
+
 
 
     # The language and tag models, and the context free grammar induced
