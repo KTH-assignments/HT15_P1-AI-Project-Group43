@@ -1,0 +1,9 @@
+N = 4
+Corpus: brown.news
+Smoother: 1
+Grammar: True
+
+   Long after
+   Long after the erratic
+   Long after the erratic behavior .
+7.53407969783

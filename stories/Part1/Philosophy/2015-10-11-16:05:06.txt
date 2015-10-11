@@ -1,0 +1,17 @@
+N = 4
+Corpus: kant.news
+Smoother: 1
+Grammar: True
+
+   Some divisible
+   Some divisible trades the
+   Some divisible trades the matters not
+8.38084396967
+   Some divisible trades the matters not relevant to
+7.4924613261
+   Some divisible trades the matters not relevant to people -
+6.81513057415
+   Some divisible trades the matters not relevant to people - or ,
+5.99731018847
+   Some divisible trades the matters not relevant to people - or , people's the
+6.04833542645

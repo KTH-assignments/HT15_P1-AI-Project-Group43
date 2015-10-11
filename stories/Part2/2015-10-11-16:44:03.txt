@@ -1,0 +1,17 @@
+N = 5
+Corpus: brown.news
+Smoother: 1
+Grammar: False
+
+    Today however
+    Today however we ourselves
+    Today however we ourselves decided to
+8.81077375156
+    Today however we ourselves decided to move southward
+7.73634083162
+    Today however we ourselves decided to move southward of another
+7.17100791071
+    Today however we ourselves decided to move southward of another city council
+6.66868790286
+    Today however we ourselves decided to move southward of another city council meeting is
+5.87650049766

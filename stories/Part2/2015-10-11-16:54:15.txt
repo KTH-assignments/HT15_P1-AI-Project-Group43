@@ -1,0 +1,15 @@
+N = 8
+Corpus: brown.news
+Smoother: 1
+Grammar: True
+
+       One advantage
+       One advantage of the
+       One advantage of the school announced
+       One advantage of the school announced made after
+       One advantage of the school announced made after the Sunday
+7.99513236377
+       One advantage of the school announced made after the Sunday was defeated
+7.49851274052
+       One advantage of the school announced made after the Sunday was defeated today display
+7.15443519955

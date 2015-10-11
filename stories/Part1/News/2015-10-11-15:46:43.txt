@@ -1,0 +1,33 @@
+N = 4
+Corpus: brown.news
+Smoother: 1
+Grammar: True
+
+   Last year
+   Last year , we
+   Last year , we decided that
+7.21787972282
+   Last year , we decided that the United
+5.9404778777
+   Last year , we decided that the United States to
+5.35867740839
+   Last year , we decided that the United States to be a
+4.93138519684
+   Last year , we decided that the United States to be a proclaimed Martin
+5.74424485946
+   Last year , we decided that the United States to be a proclaimed Martin Luther Hodges
+5.5917674245
+   Last year , we decided that the United States to be a proclaimed Martin Luther Hodges haven belong
+6.20508744567
+   Last year , we decided that the United States to be a proclaimed Martin Luther Hodges haven belong to the
+5.44619314085
+   Last year , we decided that the United States to be a proclaimed Martin Luther Hodges haven belong to the Mexicans than
+5.83750199009
+   Last year , we decided that the United States to be a proclaimed Martin Luther Hodges haven belong to the Mexicans than the arithmetical
+5.45483599551
+   Last year , we decided that the United States to be a proclaimed Martin Luther Hodges haven belong to the Mexicans than the arithmetical differences raw
+5.96537599548
+   Last year , we decided that the United States to be a proclaimed Martin Luther Hodges haven belong to the Mexicans than the arithmetical differences raw calculus university
+6.23641181362
+   Last year , we decided that the United States to be a proclaimed Martin Luther Hodges haven belong to the Mexicans than the arithmetical differences raw calculus university . In
+5.8321828107

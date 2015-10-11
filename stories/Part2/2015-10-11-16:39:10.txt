@@ -1,0 +1,18 @@
+N = 2
+Corpus: brown.news
+Smoother: 1
+Grammar: True
+
+ Once the
+ Once the officer ,
+8.65110879589
+ Once the officer , twice elected
+8.28084613434
+ Once the officer , twice elected as vice
+7.98188001526
+ Once the officer , twice elected as vice lieutenant governor
+7.98601737335
+ Once the officer , twice elected as vice lieutenant governor , paneled
+7.93482544424
+ Once the officer , twice elected as vice lieutenant governor , paneled criminals ''
+7.79427161542

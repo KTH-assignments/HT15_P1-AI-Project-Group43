@@ -1,0 +1,12 @@
+N = 3
+Corpus: brown.news
+Smoother: 1
+Grammar: True
+
+  Yesterday the
+  Yesterday the commander of
+9.1457853892
+  Yesterday the commander of boats is
+8.25638666132
+  Yesterday the commander of boats is wrecking .
+8.13889048599

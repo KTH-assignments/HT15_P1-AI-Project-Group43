@@ -1,0 +1,17 @@
+N = 4
+Corpus: grimmstories.news
+Smoother: 1
+Grammar: True
+
+   Yesterday leaped
+   Yesterday leaped a joiner
+   Yesterday leaped a joiner inside the
+8.75497605496
+   Yesterday leaped a joiner inside the house and
+7.318124265
+   Yesterday leaped a joiner inside the house and hurt her
+6.86455912479
+   Yesterday leaped a joiner inside the house and hurt her ankle of
+6.73980422035
+   Yesterday leaped a joiner inside the house and hurt her ankle of many of
+6.27686448302
