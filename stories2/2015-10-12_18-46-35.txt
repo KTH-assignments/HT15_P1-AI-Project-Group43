@@ -1,0 +1,10 @@
+N = 3
+Corpus: grimmstories.news
+Smoother: 1
+Grammar: True
+
+  Test numbers
+  Test numbers are not
+9.75241614553
+  Test numbers are not created had
+9.20931600803

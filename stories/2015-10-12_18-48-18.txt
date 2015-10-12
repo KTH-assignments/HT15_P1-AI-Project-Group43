@@ -1,0 +1,10 @@
+N = 3
+Corpus: grimmstories.news
+Smoother: 1
+Grammar: True
+
+  Testing it
+  Testing it now before
+8.40075477276
+  Testing it now before it ,
+6.86454883079
