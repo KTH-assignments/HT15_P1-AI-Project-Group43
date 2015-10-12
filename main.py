@@ -61,21 +61,23 @@ def main():
         record = 0
     elif record > 0:
         # Default directory in which the story will be recorded
-        record_directory = "stories/"
+        record_directory = "stories\\"
 
     if args.record_directory is not None:
-        record_directory += "/"
+        record_directory = args.record_directory+"\\"
         record = 1
 
 
     if record > 0:
         # The name of the file in which the story is recorded
-        file_name = record_directory + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d-%H:%M:%S') + '.txt'
+        file_name = record_directory + datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M-%S') + '.txt'
         print "--Story recorded in", file_name
     else:
         print "--The story below will remain strictly between us"
 
     # Log the parameters of the language model in `file_name`
+    f = open(file_name, 'w+') # Initialize the file that we want to log to
+    f.close()
     log(file_name, "N = " + str(N))
     log(file_name, "Corpus: " + corpus + "." + corpus_category)
     log(file_name, "Smoother: " + str(est))
@@ -202,10 +204,10 @@ def agent_says(conversation, N, langModel, check_grammar):
 ################################################################################
 # Records `content_` in the directory `filename_`
 ################################################################################
-def log(filename_, content_):
-
-    with open(filename_, 'a') as f:
+def log(file_, content_):
+    with open(file_, 'a') as f:
         f.write(content_+ "\n")
+        f.close()
 
 
 

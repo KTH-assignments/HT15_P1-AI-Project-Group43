@@ -1,0 +1,14 @@
+N = 3
+Corpus: grimmstories.news
+Smoother: 1
+Grammar: True
+
+  Once upon
+  Once upon a bank
+7.03005844455
+  Once upon a bank there ,
+5.27254383341
+  Once upon a bank there , a wolf
+5.25946203049
+  Once upon a bank there , a wolf tried .
+5.11841234156

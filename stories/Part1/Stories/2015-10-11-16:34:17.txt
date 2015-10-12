@@ -1,9 +1,0 @@
-N = 4
-Corpus: grimmstories.news
-Smoother: 1
-Grammar: True
-
-   It is
-   It is a lucky
-   It is a lucky little beds
-6.34005177234

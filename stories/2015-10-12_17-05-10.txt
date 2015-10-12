@@ -1,0 +1,8 @@
+N = 3
+Corpus: grimmstories.news
+Smoother: 1
+Grammar: True
+
+  Hey top
+  Hey top one day
+8.72015294579

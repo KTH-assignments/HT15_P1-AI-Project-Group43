@@ -1,0 +1,5 @@
+N = 3
+Corpus: treebank.news
+Smoother: 1
+Grammar: True
+
