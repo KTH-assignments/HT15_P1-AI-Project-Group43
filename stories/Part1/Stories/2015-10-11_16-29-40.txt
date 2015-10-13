@@ -1,0 +1,25 @@
+N = 4
+Corpus: grimmstories.news
+Smoother: 1
+Grammar: True
+
+   Once upon
+   Once upon a time
+   Once upon a time a tailor
+5.81353615394
+   Once upon a time a tailor came away
+5.42433393309
+   Once upon a time a tailor came away from her
+4.3986343413
+   Once upon a time a tailor came away from her during the
+4.36208597519
+   Once upon a time a tailor came away from her during the war ,
+4.16664381854
+   Once upon a time a tailor came away from her during the war , which was
+3.8789394684
+   Once upon a time a tailor came away from her during the war , which was horrible King
+4.32727716036
+   Once upon a time a tailor came away from her during the war , which was horrible King of the
+3.87997803675
+   Once upon a time a tailor came away from her during the war , which was horrible King of the land the
+3.93433743672

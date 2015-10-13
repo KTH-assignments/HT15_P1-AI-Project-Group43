@@ -1,0 +1,21 @@
+N = 4
+Corpus: brown.news
+Smoother: 1
+Grammar: True
+
+   Yesterday Mantle
+   Yesterday Mantle decided today
+   Yesterday Mantle decided today that the
+8.79517845375
+   Yesterday Mantle decided today that the budget during
+7.7514810603
+   Yesterday Mantle decided today that the budget during last November
+7.25229920666
+   Yesterday Mantle decided today that the budget during last November was split
+6.8166279381
+   Yesterday Mantle decided today that the budget during last November was split between running
+5.82820553353
+   Yesterday Mantle decided today that the budget during last November was split between running and passing
+5.21471021421
+   Yesterday Mantle decided today that the budget during last November was split between running and passing . Coach
+4.71807114619

@@ -1,0 +1,23 @@
+N = 4
+Corpus: brown.news
+Smoother: 1
+Grammar: True
+
+   Great chapters
+   Great chapters of history
+   Great chapters of history have been
+6.35725542509
+   Great chapters of history have been recorded along
+5.20139080235
+   Great chapters of history have been recorded along with lively
+4.50755045534
+   Great chapters of history have been recorded along with lively narrative ,
+4.93619059051
+   Great chapters of history have been recorded along with lively narrative , but also
+4.60821964143
+   Great chapters of history have been recorded along with lively narrative , but also harsh ,
+4.7113744663
+   Great chapters of history have been recorded along with lively narrative , but also harsh , and they
+4.41917243589
+   Great chapters of history have been recorded along with lively narrative , but also harsh , and they reported .
+4.41551580667

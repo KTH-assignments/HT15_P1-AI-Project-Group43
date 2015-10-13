@@ -1,0 +1,8 @@
+N = 8
+Corpus: brown.news
+Smoother: 1
+Grammar: True
+
+       Every person
+       Every person in a
+       Every person in a community health

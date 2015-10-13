@@ -1,0 +1,17 @@
+N = 4
+Corpus: kant.news
+Smoother: 1
+Grammar: True
+
+   Since there
+   Since there was nothing
+   Since there was nothing there is
+6.60557104537
+   Since there was nothing there is nothing as
+5.7285808364
+   Since there was nothing there is nothing as satisfying them
+5.62092612023
+   Since there was nothing there is nothing as satisfying them to run
+4.9090749905
+   Since there was nothing there is nothing as satisfying them to run . DEFINITION
+4.76746537814

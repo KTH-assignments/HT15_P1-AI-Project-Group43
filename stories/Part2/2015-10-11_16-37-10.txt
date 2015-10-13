@@ -1,0 +1,5 @@
+N = 2
+Corpus: grbrown.news
+Smoother: 1
+Grammar: False
+

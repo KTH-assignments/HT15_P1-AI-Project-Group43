@@ -1,0 +1,11 @@
+N = 8
+Corpus: brown.news
+Smoother: 1
+Grammar: False
+
+       Martin Burke
+       Martin Burke from the
+       Martin Burke from the soccer do
+       Martin Burke from the soccer do not know
+       Martin Burke from the soccer do not know anything ''
+9.07499236716
