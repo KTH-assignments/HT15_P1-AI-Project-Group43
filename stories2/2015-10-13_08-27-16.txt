@@ -1,0 +1,16 @@
+N = 3
+Corpus: grimmstories.news
+Smoother: 1
+Grammar: True
+
+  Hi !
+  Hi ! I must
+7.61273247637
+  Hi ! I must tell no
+6.51283245161
+  Hi ! I must tell no story ,
+6.05986357373
+  Hi ! I must tell no story , nor any
+5.87051414571
+  Hi ! I must tell no story , nor any myth ,
+5.86641535768
