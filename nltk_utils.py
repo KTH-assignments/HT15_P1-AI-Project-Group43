@@ -1,9 +1,11 @@
+################################################################################
+# Imports
+################################################################################
 from nltk.corpus import *
 from nltk.probability import *
 from nltk.model import NgramModel
 from nltk.tag import *
 from nltk.grammar import *
-
 from nltk import *
 
 
@@ -46,6 +48,7 @@ def get_corpus_words(corpus_, corpus_category_):
 
 ################################################################################
 # Sets the training set and extracts its contents as a list of tagged words
+# NOT USED. Only here for research purposes.
 ################################################################################
 def get_tagged_words_list_from_corpus(corpus_):
 
@@ -88,6 +91,7 @@ def get_words_list_from_corpus(corpus_, corpus_category_):
 
 ################################################################################
 # Induce a context free grammar from the corpus used
+# NOT USED. Only here for research purposes.
 ################################################################################
 def induce_grammar_from_parsed_corpus(corpus_):
 
@@ -164,6 +168,7 @@ def init_language_model(words, N, estimator):
 
 ################################################################################
 # Constructs the tagging model
+# NOT USED. Only here for research purposes.
 ################################################################################
 def init_tagger_model(corpus_):
 
@@ -215,9 +220,6 @@ def init_tagger_model(corpus_):
 # Sets the estimator for smoothing
 ################################################################################
 def set_estimator(est_, words):
-
-    # Find how many bins we'll need
-    bins = len(words)
 
     # Smoother selection
     if est_ == 0:

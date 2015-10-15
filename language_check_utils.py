@@ -11,7 +11,7 @@ def check(conversation):
     # Since `conversation` is a list, join all words into a humanly readable form
     human_readable_conversation = ""
     for word in conversation:
-        if word in [".", ",", "?"]:
+        if word in [".", ",", "?", ";"]:
             human_readable_conversation += word
         else:
             human_readable_conversation += " "
@@ -20,6 +20,9 @@ def check(conversation):
     # Remove whitespaces at the left and right of the conversation
     human_readable_conversation = human_readable_conversation.strip()
 
+    # Check the grammatical and syntactical correctness of the conversation.
+    # `errors` will hold all errors found and suggestions made by the
+    # language checking tool
     errors = tool.check(human_readable_conversation)
 
     if len(errors) > 0:
