@@ -1,13 +1,19 @@
+################################################################################
+# Imports
+################################################################################
 import sys
 import time
 import datetime
 import nltk_utils
 import language_check_utils
 import argparse
-
 from nltk.parse.chart import ChartParser
 
 
+
+################################################################################
+# The entry point of the program
+################################################################################
 def main():
 
 	# Parse the command line arguments
@@ -87,11 +93,12 @@ def main():
 
 
 
-	# The language and tag models, and the context free grammar induced
-	# from the corpus used
+	# The language induced from the corpus used
+        # Required arguments are the corpus, a category to semantically and
+        # grammatically limit the corpus's language, the order of the language
+        # model N, and, optionally, a probability distribution, here called
+        # `est`, as a smoothing operator
 	langModel = nltk_utils.init(corpus, corpus_category, N, est)
-
-	#parser = ChartParser(cfg_grammar)
 
 	# The conversation has to have N-1 places in the beginning
 	conversation = ["",] * (N-1)
@@ -102,10 +109,30 @@ def main():
 
 		try:
 
+                        # Its the human's turn.
+                        # He inputs a word and that word is added to the
+                        # story, or, as it is here called, the conversation.
+                        # If grammar checking is employed, the human must
+                        # provide a word that does not break the grammatical
+                        # coherence of the so far conversation.
+                        # If it does, the user is prompted to type another
+                        # word instead.
 			conversation = user_says(conversation, check_grammar)
 
+                        # It's the agent's turn.
+                        # The agent predicts a word based on the so far
+                        # conversation and the language model it employs.
+                        # The last N-1 words in the conversation act as the
+                        # context in which the agent's response is based on.
+                        # Again, if grammatical checking is employed, the
+                        # agent has to come up with a word that does not
+                        # violate the grammatical structure of the so far
+                        # conversation.
 			conversation = agent_says(conversation, N, langModel, check_grammar)
 
+                        # Since conversation is a list of words,
+                        # make a human readable version of it in order to
+                        # print it.
 			human_readable_conversation = " ".join(conversation)
 
 			print human_readable_conversation
@@ -114,6 +141,10 @@ def main():
 			if record > 0:
 				log(file_name, human_readable_conversation)
 
+                        # Necessary precautionary measure, or else, there is
+                        # a division by zero. This is due to NLTK's
+                        # implementation. Read the code for NLTK/model::entropy
+                        # to understand why.
 			if (len(conversation)-(N-1)) > N:
 				if record > 0:
 					log(file_name, str(langModel.entropy(conversation)))
@@ -144,11 +175,15 @@ def user_says(conversation, check_grammar):
 		# maybe the user's input is incorrect.
 		conversation.append(users_word)
 
+                # Grammar checking?
 		if check_grammar:
 
 			# Check the conversation's correctness
 			users_input_is_correct = language_check_utils.check(conversation)
 
+                        # If the human's input violates the grammatical or
+                        # syntacticall coherence of the so far conversation
+                        # he is prompted to provide another word in its place.
 			if not users_input_is_correct:
 				print "Unacceptable input. Please try again."
 				conversation = list(valid_conversation)
@@ -194,6 +229,9 @@ def agent_says(conversation, N, langModel, check_grammar):
 
 			sentence_is_correct = language_check_utils.check(conversation)
 
+                        # If the agent's output violates the grammatical or
+                        # syntacticall coherence of the so far conversation
+                        # he must provide another word in its place.
 			if not sentence_is_correct:
 				conversation = list(valid_conversation)
 		else:
